@@ -3,7 +3,8 @@
   max-width: 1280px;
   width: 100%;
   padding: 45px 0 60px;
-  background: #000000;
+  background-color: #000000;
+  font-family: 'Inter', 'Arial', sans-serif;
 }
 @media screen and (max-width: 320px) {
   .page {
