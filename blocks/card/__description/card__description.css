@@ -1,0 +1,9 @@
+.card__description {
+  padding: 25px 15px 31px 21px;
+  background: #FFFFFF;
+  border-radius: 0 0 10px 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

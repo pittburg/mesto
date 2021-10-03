@@ -9,7 +9,6 @@
 @media screen and (max-width: 320px) {
   .profile__info {
     margin: 0;
-    width: 100%;
-  justify-content: center;
+    justify-content: center;
   }
 }
