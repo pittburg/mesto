@@ -1,0 +1,11 @@
+.card__like {
+  margin: 0;
+  width: 22px;
+  height: 19px;
+  align-self: center;
+  cursor: pointer;
+}
+.card__like:hover {
+  opacity: 0.5;
+  transition: opacity 0.5s ease-in-out;
+}
