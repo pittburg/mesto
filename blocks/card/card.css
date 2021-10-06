@@ -1,5 +1,12 @@
 .card {
+  max-width: 282px;
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (max-width: 930px) {
+  .card {
+    max-width: 100%;
+  }
 }

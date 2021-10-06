@@ -1,7 +1,7 @@
 .main {
   padding: 40px 0 66px;
 }
-@media  screen and (max-width: 320px) {
+@media  screen and (max-width: 411px) {
   .main {
     padding: 42px 0 48px;
   }
