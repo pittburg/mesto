@@ -1,19 +1,30 @@
 .profile__info {
   margin: 0;
   color: #FFFFFF;
-  display: flex;
-  flex-wrap: wrap;
+  max-width: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px 18px;
+  box-sizing: border-box;
 }
 
+@media screen and (max-width: 930px) {
+  .profile__info {
+    max-width: 60%;
+  }
+}
 @media screen and (max-width: 768px) {
   .profile__info {
-    flex: 0 1 100%;
+    grid-template-columns: auto auto;
+    gap: 14px 10px;
+    max-width: 100%;
+    justify-content: center;
   }
 }
 @media screen and (max-width: 411px) {
   .profile__info {
-    max-width: 100%;
-    justify-content: center;
     text-align: center;
+    margin-left: 25px;
   }
 }
