@@ -4,7 +4,7 @@
   border: 1px solid #FFFFFF;
   background-image: url("../../../../images/edit_button.svg");
   background-size: 10px 10px;
-  align-self: flex-end;
+  align-self: center;
 }
 
 @media screen and (max-width: 411px) {
