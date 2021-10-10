@@ -1,22 +1,16 @@
 .profile__info {
-  margin: 0;
+  margin: 0 auto 0 0;
   color: #FFFFFF;
-  max-width: 100%;
-  width: 100%;
+  max-width: calc(336/880*100%);
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto auto;
   gap: 16px 18px;
   box-sizing: border-box;
 }
 
-@media screen and (max-width: 930px) {
-  .profile__info {
-    max-width: 60%;
-  }
-}
 @media screen and (max-width: 768px) {
   .profile__info {
-    grid-template-columns: auto auto;
+    margin: 0;
     gap: 14px 10px;
     max-width: 100%;
     justify-content: center;

@@ -6,4 +6,5 @@
   background-position: center center;
   cursor: pointer;
   flex: none;
+  transition: opacity 0.5s ease-in-out;
 }

@@ -9,18 +9,7 @@
   top: -40px;
   right: -40px;
   cursor: pointer;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(180deg);
-  }
-}
-.popup__close:hover {
-  animation: rotation 0.5s linear 0.5;
+  transition: opacity 0.5s ease-in-out;
 }
 
 @media screen and (max-width: 600px) {
@@ -34,6 +23,5 @@
     width: 20px;
     height: 20px;
     top: -36px;
-    right: 0;
   }
 }

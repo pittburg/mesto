@@ -1,11 +1,14 @@
 .card__like {
-  margin: 0;
+  margin: 0 5px 0 0;
+  padding: 0;
   width: 22px;
   height: 19px;
-  align-self: center;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  align-self: flex-end;
   cursor: pointer;
+  transition: opacity 0.5s ease-in-out;
 }
 .card__like:hover {
   opacity: 0.5;
-  transition: opacity 0.5s ease-in-out;
 }

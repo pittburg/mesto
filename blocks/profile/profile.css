@@ -10,8 +10,3 @@
    justify-content: center;
   }
 }
-@media  screen and (max-width: 411px) {
-  .profile {
-    justify-content: center;
-  }
-}
