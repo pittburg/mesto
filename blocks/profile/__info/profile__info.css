@@ -4,14 +4,14 @@
   max-width: calc(336/880*100%);
   display: grid;
   grid-template-columns: auto auto;
-  gap: 16px 18px;
+  gap: 9px 18px;
   box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
   .profile__info {
     margin: 0;
-    gap: 14px 10px;
+    gap: 8px 10px;
     max-width: 100%;
     justify-content: center;
   }

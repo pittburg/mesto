@@ -11,7 +11,8 @@
     <header class="header">
       <img class="header__logo" src="images/logo.svg" alt="логотип">
     </header>
-<!-- Большое спасибо за ревью -->
+<!--  Я неделю думал как обойти высоту строки, а оказывается надо внимательнее смотреть в макет. Фэйспалм.
+      Еще раз большое спасибо за ревью -->
     <main class="main">
       <section class="profile width-container">
         <img class="profile__avatar" src="images/kusto.png" alt="аватар">
@@ -28,42 +29,42 @@
           <img src="images/saint_petersburg.jpg" alt="Исаакиевский собор" class="card__photo">
           <div class="card__description">
             <h2 class="card__title overflow">Санкт-Петербург</h2>
-            <button type="button" class="card__like card__like_disabled"></button>
+            <button type="button" class="card__like"></button>
           </div>
         </article>
         <article class="card">
           <img src="images/moscow.jpg" alt="Москва-Сити" class="card__photo">
           <div class="card__description">
             <h2 class="card__title overflow">Москва</h2>
-            <button type="button" class="card__like card__like_disabled"></button>
+            <button type="button" class="card__like"></button>
           </div>
         </article>
         <article class="card">
           <img src="images/karelia.jpg" alt="Карелия" class="card__photo">
           <div class="card__description">
             <h2 class="card__title overflow">Карелия</h2>
-            <button type="button" class="card__like card__like_disabled"></button>
+            <button type="button" class="card__like"></button>
           </div>
         </article>
         <article class="card">
           <img src="images/karachaevsk.png" alt="Сентинский храм" class="card__photo">
           <div class="card__description">
             <h2 class="card__title overflow">Карачаевск</h2>
-            <button type="button" class="card__like card__like_disabled"></button>
+            <button type="button" class="card__like"></button>
           </div>
         </article>
         <article class="card">
           <img src="images/elbrus.png" alt="Эльбрус" class="card__photo">
           <div class="card__description">
             <h2 class="card__title overflow">Гора Эльбрус</h2>
-            <button type="button" class="card__like card__like_disabled"></button>
+            <button type="button" class="card__like"></button>
           </div>
         </article>
         <article class="card">
           <img src="images/dombai.png" alt="Домбай" class="card__photo">
           <div class="card__description">
             <h2 class="card__title overflow">Домбай</h2>
-            <button type="button" class="card__like card__like_disabled"></button>
+            <button type="button" class="card__like"></button>
           </div>
         </article>
       </section>
@@ -77,8 +78,8 @@
         <button type="button" class="popup__close hover-button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
         <form class="popup__form" id="popup" name="profile">
-          <input type="text" class="popup__input popup__input_name" name="name">
-          <input type="text" class="popup__input popup__input_about" name="about">
+          <input type="text" class="popup__input popup__input_type_name" name="name">
+          <input type="text" class="popup__input popup__input_type_about" name="about">
         </form>
         <button type="submit" class="popup__button" form="popup">Сохранить</button>
       </div>
