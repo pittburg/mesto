@@ -6,4 +6,5 @@
   flex-direction: row;
   justify-content: space-between;
   box-sizing: border-box;
+  max-width: 100%;
 }

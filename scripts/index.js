@@ -13,13 +13,9 @@ function openPopup() {
   fieldAbout.value = profileSubtitle.textContent;
 }
 
-editButton.addEventListener('click', openPopup);
-
 function closePopup() {
   popup.classList.remove('popup_opened');
 }
-
-popupCloseButton.addEventListener('click', closePopup);
 
 function submitForm(event) {
   event.preventDefault();
@@ -28,4 +24,6 @@ function submitForm(event) {
   closePopup();
  }
 
+ editButton.addEventListener('click', openPopup);
+ popupCloseButton.addEventListener('click', closePopup);
  form.addEventListener('submit', submitForm);
