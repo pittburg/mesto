@@ -33,3 +33,23 @@
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__button/popup__button.css);
 @import url(../blocks/hover-button/hover-button.css);
+
+.popup_img {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+.popup__figure {
+  margin: 0;
+  position: relative;
+
+}
+.figure__img {
+  max-width: 75vw;
+  max-height: 75vh;
+  box-sizing: border-box;
+}
+.popup__caption {
+  margin-top: 10px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.25;
+}
