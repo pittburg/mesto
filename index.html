@@ -25,49 +25,6 @@
 
       <section class="cards-grid width-container">
         
-
-        <!-- <article class="card">
-          <img src="images/saint_petersburg.jpg" alt="Исаакиевский собор" class="card__photo">
-          <div class="card__description">
-            <h2 class="card__title overflow">Санкт-Петербург</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="images/moscow.jpg" alt="Москва-Сити" class="card__photo">
-          <div class="card__description">
-            <h2 class="card__title overflow">Москва</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="images/karelia.jpg" alt="Карелия" class="card__photo">
-          <div class="card__description">
-            <h2 class="card__title overflow">Карелия</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="images/karachaevsk.png" alt="Сентинский храм" class="card__photo">
-          <div class="card__description">
-            <h2 class="card__title overflow">Карачаевск</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="images/elbrus.png" alt="Эльбрус" class="card__photo">
-          <div class="card__description">
-            <h2 class="card__title overflow">Гора Эльбрус</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="images/dombai.png" alt="Домбай" class="card__photo">
-          <div class="card__description">
-            <h2 class="card__title overflow">Домбай</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article> -->
       </section>
 
     </main>
@@ -98,10 +55,10 @@
       </div>
     </div>
 
-    <div class="popup popup_img">
+    <div class="popup popup_modal">
         <figure class="popup__figure">
-          <button type="button" class="popup__close popup__close_img hover-button"></button>
-          <img class="figure__img">
+          <button type="button" class="popup__close popup__close_modal hover-button"></button>
+          <img class="popup__photo">
           <figcaption class="popup__caption"></figcaption>
         </figure>
       </div>
@@ -110,7 +67,9 @@
     <template class="template">
       <article class="card">
         <button type="button" class="card__trash hover-button"></button>
-        <img class="card__photo">
+        <div class="card__wrapper">
+          <img class="card__photo">
+        </div>
         <div class="card__description">
           <h2 class="card__title overflow"></h2>
           <button type="button" class="card__like"></button>

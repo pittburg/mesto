@@ -18,6 +18,7 @@
 @import url(../blocks/cards-grid/cards-grid.css);
 @import url(../blocks/card/card.css);
 @import url(../blocks/card/__trash/card__trash.css);
+@import url(../blocks/card/__wrapper/card__wrapper.css);
 @import url(../blocks/card/__photo/card__photo.css);
 @import url(../blocks/card/__description/card__description.css);
 @import url(../blocks/card/__title/card__title.css);
@@ -32,24 +33,8 @@
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__button/popup__button.css);
+@import url(../blocks/popup/_modal/popup_modal.css);
+@import url(../blocks/popup/__figure/popup__figure.css);
+@import url(../blocks/popup/__photo/popup__photo.css);
+@import url(../blocks/popup/__caption/popup__caption.css);
 @import url(../blocks/hover-button/hover-button.css);
-
-.popup_img {
-  background-color: rgba(0, 0, 0, 0.9);
-}
-.popup__figure {
-  margin: 0;
-  position: relative;
-
-}
-.figure__img {
-  max-width: 75vw;
-  max-height: 75vh;
-  box-sizing: border-box;
-}
-.popup__caption {
-  margin-top: 10px;
-  color: #fff;
-  font-size: 12px;
-  line-height: 1.25;
-}
