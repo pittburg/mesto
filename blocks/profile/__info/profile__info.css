@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 777px) {
   .profile__info {
     margin: 0;
     gap: 8px 10px;
