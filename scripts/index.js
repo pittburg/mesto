@@ -1,5 +1,3 @@
-// находим значения в документе по классу и записываем в переменные
-const popup = document.querySelector('.popup');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupEditCloseButton = document.querySelector('.popup__close_edit');
@@ -16,38 +14,10 @@ const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const popupModal = document.querySelector('.popup_modal');
 const popupModalCloseButton = document.querySelector('.popup__close_modal');
-
-
-// открывает попап добавляя класс 
-function openPopup(el) {
-  el.classList.add('popup_opened');
-}
-// закрывает попап удаляя класс
-function closePopup(el) {
-  el.classList.remove('popup_opened');
-}
-// открывает попап редактирования, подставляя значения профиля в поля инпутов
-function editPopup() {
-  openPopup(popupEdit); 
-  fieldName.value = profileTitle.textContent; 
-  fieldAbout.value = profileSubtitle.textContent; 
-}
-// открывает попап добавления карточек
-function addPopup() {
-  openPopup(popupAdd);
-  fieldPlace.value = '';
-  fieldLink.value = '';
-}
-// отправляет форму редактирования, подставляя значения инпутов в поля профиля, закрывает попап
-function submitFormEdit(event) {
-  event.preventDefault();
-  profileTitle.textContent = fieldName.value;
-  profileSubtitle.textContent = fieldAbout.value;
-  closePopup(popupEdit);
- }
-
-// записывает массив в переменную
- const initialCards = [
+const image = document.querySelector('.card__photo');
+const gallery = document.querySelector('.cards-grid');
+const templateItem = document.querySelector('.template').content;
+const initialCards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -74,36 +44,33 @@ function submitFormEdit(event) {
   }
 ];
 
-const gallery = document.querySelector('.cards-grid'); // находит и записывает в переменную секцию для карточек
-const templateItem = document.querySelector('.template').content; // записывает в переменную содержимое тега template
 
-// перебор массива в обратном порядке и к каждому объекту применяется функция addCard
-initialCards.reverse().forEach(addCard);
-
-function likeToggle(event) {
-  event.target.classList.toggle('card__like_active');
-}; // переключение лайков
-
-function deleteCard(event) {
-  event.target.closest('.card').remove();
-}; // удаление карточек
-
-// создание карточек - находит класс .card и клонирует со всем содержимым, подставляет значения заголовка и ссылку,
-// добавляет слушатели по клику на удаление карточки и переключение лайков
-function createCard(item){
-  const card = templateItem.querySelector('.card').cloneNode(true);
-  card.querySelector('.card__title').textContent = item.name;
-  card.querySelector('.card__photo').src = item.link;
-  card.querySelector('.card__trash').addEventListener('click', deleteCard);
-  card.querySelector('.card__like').addEventListener('click', likeToggle);
-  return card;
-};
-
-// дабавляет карточки в начало галлереи
-function addCard(item){
-  const card = createCard(item);
-  gallery.prepend(card);
-};
+// открывает попап добавляя класс 
+function openPopup(el) {
+  el.classList.add('popup_opened');
+}
+// закрывает попап удаляя класс
+function closePopup(el) {
+  el.classList.remove('popup_opened');
+}
+// открывает попап редактирования, подставляя значения профиля в поля инпутов
+function editPopup() {
+  openPopup(popupEdit); 
+  fieldName.value = profileTitle.textContent; 
+  fieldAbout.value = profileSubtitle.textContent; 
+}
+// открывает попап добавления карточек
+function addPopup() {
+  openPopup(popupAdd);
+  document.getElementById('popup-add').reset();
+}
+// отправляет форму редактирования, подставляя значения инпутов в поля профиля, закрывает попап
+function submitFormEdit(event) {
+  event.preventDefault();
+  profileTitle.textContent = fieldName.value;
+  profileSubtitle.textContent = fieldAbout.value;
+  closePopup(popupEdit);
+ }
 
 // отправляет форму добавления карточек, значения из инпутов записывает в переменные и передает как объект функции
 // добавления карточек, закрывает попап 
@@ -114,25 +81,25 @@ function submitFormAdd(event) {
   addCard({name, link});
   event.target.reset();
   closePopup(popupAdd);
- };
+};
 
-const image = document.querySelector('.card__photo');
+function likeToggle(event) {
+  event.target.classList.toggle('card__like_active');
+}; // переключение лайков
+
+function deleteCard(event) {
+  event.target.closest('.card').remove();
+}; // удаление карточек
 
 // Модальное окно - по событию ищет значения для ссылки и заголовка, подставляет их в попап и открывает его
 function bigImage(event) {
-  event.preventDefault();
-  const caption = event.target.offsetParent.nextElementSibling.innerText;
+  const caption = event.target.offsetParent.nextElementSibling.textContent;
+  console.dir(event.target);
   const url = event.target.src;
   document.querySelector('.popup__photo').src = url;
   document.querySelector('.popup__caption').textContent = caption;
+  document.querySelector('.popup__photo').alt = caption;
   openPopup(popupModal);
-};
-
-// присваевает все элементы по тегу, перебирает их, слушает где был клик и запускает фунцию bigImage
-const images = document.getElementsByTagName('img');
-  for (let i = 0; i < images.length; ++i) {
-  let image = images[i];
-  image.addEventListener('click', bigImage);
 };
 
 // слушатели клика на открытие, закрытие попапов и отправки формы
@@ -144,4 +111,32 @@ popupAddCloseButton.addEventListener('click', () => closePopup(popupAdd));
 formEdit.addEventListener('submit', submitFormEdit);
 formAdd.addEventListener('submit', submitFormAdd);
 
-// спасибо за код-ревью =)
+
+// создание карточек - находит класс .card и клонирует со всем содержимым, подставляет значения заголовка и ссылку,
+// добавляет слушатели по клику на удаление карточки и переключение лайков
+function createCard(item){
+  const card = templateItem.querySelector('.card').cloneNode(true);
+  card.querySelector('.card__title').textContent = item.name;
+  card.querySelector('.card__photo').src = item.link;
+  card.querySelector('.card__photo').alt = item.name
+  card.querySelector('.card__trash').addEventListener('click', deleteCard);
+  card.querySelector('.card__like').addEventListener('click', likeToggle);
+  card.querySelector('.card__photo').addEventListener('click', bigImage);
+  return card;
+};
+
+// дабавляет карточки в начало галлереи
+function addCard(item){
+  const card = createCard(item);
+  gallery.prepend(card);
+};
+
+// перебор массива в обратном порядке и к каждому объекту применяется функция addCard
+initialCards.reverse().forEach(addCard);
+
+// присваевает все элементы по тегу, перебирает их, слушает где был клик и запускает фунцию bigImage
+const images = document.getElementsByTagName('img');
+  for (let i = 0; i < images.length; ++i) {
+  let image = images[i];
+  image.addEventListener('click', bigImage);
+};
