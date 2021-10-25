@@ -46,12 +46,12 @@ const initialCards = [
 
 
 // открывает попап добавляя класс 
-function openPopup(el) {
-  el.classList.add('popup_opened');
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
 }
 // закрывает попап удаляя класс
-function closePopup(el) {
-  el.classList.remove('popup_opened');
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
 }
 // открывает попап редактирования, подставляя значения профиля в поля инпутов
 function editPopup() {
@@ -94,7 +94,6 @@ function deleteCard(event) {
 // Модальное окно - по событию ищет значения для ссылки и заголовка, подставляет их в попап и открывает его
 function bigImage(event) {
   const caption = event.target.offsetParent.nextElementSibling.textContent;
-  console.dir(event.target);
   const url = event.target.src;
   document.querySelector('.popup__photo').src = url;
   document.querySelector('.popup__caption').textContent = caption;
@@ -133,10 +132,3 @@ function addCard(item){
 
 // перебор массива в обратном порядке и к каждому объекту применяется функция addCard
 initialCards.reverse().forEach(addCard);
-
-// присваевает все элементы по тегу, перебирает их, слушает где был клик и запускает фунцию bigImage
-const images = document.getElementsByTagName('img');
-  for (let i = 0; i < images.length; ++i) {
-  let image = images[i];
-  image.addEventListener('click', bigImage);
-};
