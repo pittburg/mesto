@@ -67,7 +67,7 @@ function editPopup() {
 // открывает попап добавления карточек, проверяет элементы формы
 function addPopup() {
   openPopup(popupAdd);
-  popupAdd.reset();
+  document.getElementById('popup-add').reset();
   checkForm(formAdd, config);
 }
 // отправляет форму редактирования, подставляя значения инпутов в поля профиля, закрывает попап
