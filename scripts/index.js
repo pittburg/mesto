@@ -50,11 +50,20 @@ const initialCards = [
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupToEsc);
+<<<<<<< HEAD
+=======
+  // document.addEventListener('mousedown', closePopupToOverlay);
+>>>>>>> 8240ecbf993084b2439448fd4119ed779a21e4b8
 }
 // закрывает попап удаляя класс, снимает слушатели закрытия
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+<<<<<<< HEAD
   document.removeEventListener('keydown', closePopupToEsc); // большое спасибо за ревью
+=======
+  document.removeEventListener('keydown', closePopupToEsc);
+  // document.removeEventListener('mousedown', closePopupToOverlay);
+>>>>>>> 8240ecbf993084b2439448fd4119ed779a21e4b8
 }
 
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
