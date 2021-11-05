@@ -44,13 +44,17 @@ const initialCards = [
   }
 ];
 
-// открывает попап добавляя класс 
+// открывает попап добавляя класс, слушает закрытие на Esc и оверлей
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupToEsc);
+  document.addEventListener('mousedown', closePopupToOverlay);
 }
-// закрывает попап удаляя класс
+// закрывает попап удаляя класс, снимает слушатели закрытия
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupToEsc);
+  document.removeEventListener('mousedown', closePopupToOverlay);
 }
 
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
@@ -103,21 +107,23 @@ function openModal(event) {
   openPopup(popupModal);
 }
 
-// закрытие попапа на Esc
-document.addEventListener('keydown', function(event) {
+// закрыть попап на Esc
+function closePopupToEsc(event) {
   const popupOpened = document.querySelector('.popup_opened');
   if (event.key === 'Escape') {
     closePopup(popupOpened);
   }
-});
-// закрытие на оверлей 
-document.addEventListener('mousedown', function(event) {
+}
+
+// закрыть попап по клику на оверлей 
+function closePopupToOverlay(event) {
   const popupOpened = document.querySelector('.popup_opened');
   if (event.target.classList.contains('popup')) {
     closePopup(popupOpened);
   }
-});
-// слушатели кнопок 
+}
+
+// слушатели кнопок
 editButton.addEventListener('click', editPopup);
 addButton.addEventListener('click', addPopup);
 popupModalCloseButton.addEventListener('click', () => closePopup(popupModal));
@@ -125,7 +131,6 @@ popupEditCloseButton.addEventListener('click', () => closePopup(popupEdit));
 popupAddCloseButton.addEventListener('click', () => closePopup(popupAdd));
 formEdit.addEventListener('submit', submitFormEdit);
 formAdd.addEventListener('submit', submitFormAdd);
-
 
 // создание карточек - находит класс .card и клонирует со всем содержимым, подставляет значения заголовка и ссылку,
 // добавляет слушатели по клику на удаление карточки и переключение лайков
