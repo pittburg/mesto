@@ -1,3 +1,4 @@
+const popups = document.querySelectorAll('.popup')
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupEditCloseButton = document.querySelector('.popup__close_edit');
@@ -14,6 +15,7 @@ const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const popupModal = document.querySelector('.popup_modal');
 const popupModalCloseButton = document.querySelector('.popup__close_modal');
+const bigImage = document.querySelector('.popup__photo');
 const image = document.querySelector('.card__photo');
 const gallery = document.querySelector('.cards-grid');
 const templateItem = document.querySelector('.template').content;
@@ -48,13 +50,11 @@ const initialCards = [
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupToEsc);
-  document.addEventListener('mousedown', closePopupToOverlay);
 }
 // закрывает попап удаляя класс, снимает слушатели закрытия
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupToEsc);
-  document.removeEventListener('mousedown', closePopupToOverlay);
+  document.removeEventListener('keydown', closePopupToEsc); // большое спасибо за ревью
 }
 
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
@@ -67,7 +67,7 @@ function editPopup() {
 // открывает попап добавления карточек, проверяет элементы формы
 function addPopup() {
   openPopup(popupAdd);
-  document.getElementById('popup-add').reset();
+  popupAdd.reset();
   checkForm(formAdd, config);
 }
 // отправляет форму редактирования, подставляя значения инпутов в поля профиля, закрывает попап
@@ -101,34 +101,35 @@ function deleteCard(event) {
 function openModal(event) {
   const caption = event.target.offsetParent.nextElementSibling.textContent;
   const url = event.target.src;
-  document.querySelector('.popup__photo').src = url;
+  bigImage.src = url;
+  bigImage.alt = caption;
   document.querySelector('.popup__caption').textContent = caption;
-  document.querySelector('.popup__photo').alt = caption;
   openPopup(popupModal);
 }
 
 // закрыть попап на Esc
 function closePopupToEsc(event) {
-  const popupOpened = document.querySelector('.popup_opened');
   if (event.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_opened');
     closePopup(popupOpened);
   }
 }
 
-// закрыть попап по клику на оверлей 
-function closePopupToOverlay(event) {
-  const popupOpened = document.querySelector('.popup_opened');
-  if (event.target.classList.contains('popup')) {
-    closePopup(popupOpened);
-  }
-}
+// закрыть попап на оверлей и крестик
+popups.forEach((popup) => {
+    popup.addEventListener('click', (event) => {
+        if (event.target.classList.contains('popup_opened')) {
+            closePopup(popup)
+        }
+        if (event.target.classList.contains('popup__close')) {
+          closePopup(popup)
+        }
+    })
+})
 
 // слушатели кнопок
 editButton.addEventListener('click', editPopup);
 addButton.addEventListener('click', addPopup);
-popupModalCloseButton.addEventListener('click', () => closePopup(popupModal));
-popupEditCloseButton.addEventListener('click', () => closePopup(popupEdit));
-popupAddCloseButton.addEventListener('click', () => closePopup(popupAdd));
 formEdit.addEventListener('submit', submitFormEdit);
 formAdd.addEventListener('submit', submitFormAdd);
 
@@ -136,12 +137,13 @@ formAdd.addEventListener('submit', submitFormAdd);
 // добавляет слушатели по клику на удаление карточки и переключение лайков
 function createCard(item){
   const card = templateItem.querySelector('.card').cloneNode(true);
+  const photo = card.querySelector('.card__photo');
   card.querySelector('.card__title').textContent = item.name;
-  card.querySelector('.card__photo').src = item.link;
-  card.querySelector('.card__photo').alt = item.name;
+  photo.src = item.link;
+  photo.alt = item.name;
+  photo.addEventListener('click', openModal);
   card.querySelector('.card__trash').addEventListener('click', deleteCard);
   card.querySelector('.card__like').addEventListener('click', toggleLike);
-  card.querySelector('.card__photo').addEventListener('click', openModal);
   return card;
 }
 
