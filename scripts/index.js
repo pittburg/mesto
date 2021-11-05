@@ -76,7 +76,7 @@ function submitFormEdit(event) {
   profileTitle.textContent = fieldName.value;
   profileSubtitle.textContent = fieldAbout.value;
   closePopup(popupEdit);
- }
+}
 
 // отправляет форму добавления карточек, значения из инпутов записывает в переменные и передает как объект функции
 // добавления карточек, закрывает попап 
@@ -84,7 +84,7 @@ function submitFormAdd(event) {
   event.preventDefault();
   const name = fieldPlace.value;
   const link = fieldLink.value;
-  addCard({name, link});
+  addCard({ name, link });
   event.target.reset();
   closePopup(popupAdd);
 }
@@ -117,14 +117,14 @@ function closePopupToEsc(event) {
 
 // закрыть попап на оверлей и крестик
 popups.forEach((popup) => {
-    popup.addEventListener('click', (event) => {
-        if (event.target.classList.contains('popup_opened')) {
-            closePopup(popup)
-        }
-        if (event.target.classList.contains('popup__close')) {
-          closePopup(popup)
-        }
-    })
+  popup.addEventListener('click', (event) => {
+    if (event.target.classList.contains('popup_opened')) {
+      closePopup(popup)
+    }
+    if (event.target.classList.contains('popup__close')) {
+      closePopup(popup)
+    }
+  })
 })
 
 // слушатели кнопок
@@ -135,7 +135,7 @@ formAdd.addEventListener('submit', submitFormAdd);
 
 // создание карточек - находит класс .card и клонирует со всем содержимым, подставляет значения заголовка и ссылку,
 // добавляет слушатели по клику на удаление карточки и переключение лайков
-function createCard(item){
+function createCard(item) {
   const card = templateItem.querySelector('.card').cloneNode(true);
   const photo = card.querySelector('.card__photo');
   card.querySelector('.card__title').textContent = item.name;
@@ -148,7 +148,7 @@ function createCard(item){
 }
 
 // дабавляет карточки в начало галлереи
-function addCard(item){
+function addCard(item) {
   const card = createCard(item);
   gallery.prepend(card);
 }
