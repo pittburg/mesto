@@ -5,7 +5,7 @@ const config = {
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
-}
+} 
 
 function handleSubmit(event) {
   event.preventDefault();
