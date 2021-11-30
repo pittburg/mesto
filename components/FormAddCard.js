@@ -9,9 +9,9 @@ class FormAddCard {
 
   _addCard(event) {
     event.preventDefault();
-    const place = this._inputPlace.value;
+    const name = this._inputPlace.value;
     const link =  this._inputLink.value;
-    const item = {place, link};
+    const item = {name, link};
     this._addItem(item);
     this._form.reset();
   }

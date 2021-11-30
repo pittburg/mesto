@@ -8,7 +8,7 @@ class CardList {
   addItem(item) {
     const card = this._createCard(item);
     const view = card.render();
-    this._gallery.append(view);
+    this._gallery.prepend(view);
   }
 }
  

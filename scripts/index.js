@@ -1,27 +1,21 @@
 import Card from '../components/Card.js';
 import CardList from '../components/CardList.js';
 import FormAddCard from '../components/FormAddCard.js';
-// import FormValidator from './FormValidator.js';
+import FormValidator from '../components/FormValidator.js';
 
 const popups = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
-const popupEditCloseButton = document.querySelector('.popup__close_edit');
-const popupAddCloseButton = document.querySelector('.popup__close_add');
 const editButton = document.querySelector('.profile__button_edit');
 const addButton = document.querySelector('.profile__button_add');
 const formEdit = document.querySelector('.popup__form_edit');
 const formAdd = document.querySelector('.popup__form_add');
 const fieldName = document.querySelector('.popup__input_type_name');
 const fieldAbout = document.querySelector('.popup__input_type_about');
-const fieldPlace = document.querySelector('.popup__input_type_place');
-const fieldLink = document.querySelector('.popup__input_type_link');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const popupModal = document.querySelector('.popup_modal');
-const popupModalCloseButton = document.querySelector('.popup__close_modal');
 const bigImage = document.querySelector('.popup__photo');
-const image = document.querySelector('.card__photo');
 const gallery = document.querySelector('.cards-grid');
 const templateItem = document.querySelector('.template').content;
 const initialCards = [
@@ -51,10 +45,31 @@ const initialCards = [
   }
 ];
 
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+} 
+
+//галлерея карточек 
 const cardList = new CardList(gallery, initialCards, createCard);
+
+//форма добавления карточек
 const formAddCard = new FormAddCard(formAdd, addItem);
 formAddCard.addListener();
 
+//валидация формы добавления карточки
+const formAddValidator = new FormValidator(config, formAdd);
+formAddValidator.enableValidation();
+
+//валидация формы редактирования карточки
+const formEditValidator = new FormValidator(config, formEdit);
+formEditValidator.enableValidation();
+
+// создание карточки
 function createCard(item) {
   const card = new Card(item, templateItem, openModal);
   return card; 
@@ -70,11 +85,13 @@ function openModal(event) {
   openPopup(popupModal);
 }
 
+// добавить карточку
 function addItem(item) {
   cardList.addItem(item);
+  closePopup(popupAdd);
 }
-
-initialCards.reverse().forEach((item) => {
+// добавить массив карточек
+initialCards.forEach((item) => {
   cardList.addItem(item);
 })
 
@@ -84,60 +101,31 @@ function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupToEsc);
 }
-// закрывает попап удаляя класс, снимает слушатели закрытия
+// // закрывает попап удаляя класс, снимает слушатели закрытия
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupToEsc);
+  document.removeEventListener('click', closePopupToEsc);
 }
-// // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
-// function editPopup() {
-//   openPopup(popupEdit);
-//   fieldName.value = profileTitle.textContent;
-//   fieldAbout.value = profileSubtitle.textContent;
-//   checkForm(formEdit, config);
-// }
-// // открывает попап добавления карточек, проверяет элементы формы
-// function addPopup() {
-//   openPopup(popupAdd);
-//   document.getElementById('popup-add').reset();
-//   checkForm(formAdd, config);
-// }
-// // отправляет форму редактирования, подставляя значения инпутов в поля профиля, закрывает попап
-// function submitFormEdit(event) {
-//   event.preventDefault();
-//   profileTitle.textContent = fieldName.value;
-//   profileSubtitle.textContent = fieldAbout.value;
-//   closePopup(popupEdit);
-// }
-
-// // отправляет форму добавления карточек, значения из инпутов записывает в переменные и передает как объект функции
-// // добавления карточек, закрывает попап 
-// function submitFormAdd(event) {
-//   event.preventDefault();
-//   const name = fieldPlace.value;
-//   const link = fieldLink.value;
-//   addCard({ name, link });
-//   event.target.reset();
-//   closePopup(popupAdd);
-// }
-
-// // function toggleLike(event) {
-// //   event.target.classList.toggle('card__like_active');
-// // } // переключение лайков
-
-// // function deleteCard(event) {
-// //   event.target.closest('.card').remove();
-// // } // удаление карточек
-
-// Модальное окно - по событию ищет значения для ссылки и заголовка, подставляет их в попап и открывает его
-// function openModal(event) {
-//   const caption = event.target.offsetParent.nextElementSibling.textContent;
-//   const url = event.target.src;
-//   bigImage.src = url;
-//   bigImage.alt = caption;
-//   document.querySelector('.popup__caption').textContent = caption;
-//   openPopup(popupModal);
-// }
+// открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
+function editPopup() {
+  openPopup(popupEdit);
+  fieldName.value = profileTitle.textContent;
+  fieldAbout.value = profileSubtitle.textContent;
+  formEditValidator.checkForm();
+}
+// открывает попап добавления карточек, проверяет элементы формы
+function addPopup() {
+  openPopup(popupAdd);
+  document.getElementById('popup-add').reset();
+  formAddValidator.checkForm();
+}
+// отправляет форму редактирования, подставляя значения инпутов в поля профиля, закрывает попап
+function submitFormEdit(event) {
+  event.preventDefault();
+  profileTitle.textContent = fieldName.value;
+  profileSubtitle.textContent = fieldAbout.value;
+  closePopup(popupEdit);
+}
 
 // закрыть попап на Esc
 function closePopupToEsc(event) {
@@ -159,35 +147,7 @@ popups.forEach((popup) => {
   })
 })
 
-// // слушатели кнопок
-// editButton.addEventListener('click', editPopup);
-// addButton.addEventListener('click', addPopup);
-// formEdit.addEventListener('submit', submitFormEdit);
-// formAdd.addEventListener('submit', submitFormAdd);
-
-// // создание карточек - находит класс .card и клонирует со всем содержимым, подставляет значения заголовка и ссылку,
-// // добавляет слушатели по клику на удаление карточки и переключение лайков
-// // function createCard(item) {
-// //   const card = templateItem.querySelector('.card').cloneNode(true);
-// //   const photo = card.querySelector('.card__photo');
-// //   card.querySelector('.card__title').textContent = item.name;
-// //   photo.src = item.link;
-// //   photo.alt = item.name;
-// //   photo.addEventListener('click', openModal);
-// //   card.querySelector('.card__trash').addEventListener('click', deleteCard);
-// //   card.querySelector('.card__like').addEventListener('click', toggleLike);
-// //   return card;
-// // }
-
-// // дабавляет карточки в начало галлереи
-// // function addCard(item) {
-// //   const card = createCard(item);
-// //   gallery.prepend(card);
-// // }
-
-
-
-// // перебор массива в обратном порядке и к каждому объекту применяется функция addCard
-// // initialCards.reverse().forEach(addCard);
-
-// initialCards.reverse().forEach(addCard);
+// слушатели кнопок
+editButton.addEventListener('click', editPopup);
+addButton.addEventListener('click', addPopup);
+formEdit.addEventListener('submit', submitFormEdit);
