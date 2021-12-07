@@ -13,6 +13,7 @@ class Card {
     event.target.closest('.card').remove();
   }
 
+  
   _addListeners() {
     this._view.querySelector('.card__like').addEventListener('click', this._toggleLike);
     this._view.querySelector('.card__trash').addEventListener('click', this._deleteCard);

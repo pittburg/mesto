@@ -1,4 +1,4 @@
-class CardList {
+class Section {
   constructor(gallery, initialCards, createCard) {
     this._gallery = gallery;
     this._initialCards = initialCards;
@@ -12,4 +12,4 @@ class CardList {
   }
 }
  
-export default CardList;
+export default Section;

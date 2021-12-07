@@ -1,11 +1,14 @@
 import Card from '../components/Card.js';
-import CardList from '../components/CardList.js';
+import Section from '../components/Section.js';
 import FormAddCard from '../components/FormAddCard.js';
 import FormValidator from '../components/FormValidator.js';
+import Popup from '../components/Popup.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
 
-const popups = document.querySelectorAll('.popup');
-const popupEdit = document.querySelector('.popup_edit');
-const popupAdd = document.querySelector('.popup_add');
+
+const popupEditClass = document.querySelector('.popup_edit');
+const popupAddClass = document.querySelector('.popup_add');
 const editButton = document.querySelector('.profile__button_edit');
 const addButton = document.querySelector('.profile__button_add');
 const formEdit = document.querySelector('.popup__form_edit');
@@ -51,11 +54,22 @@ const config = {
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-} 
+  errorClass: 'popup__error_visible',
+  popupOpenClass: 'popup_opened'
+}
+
+
+const popupWithImage = new PopupWithImage(config, popupModal);
+popupWithImage.setEventListeners();
+
+const popupAdd = new Popup(config, popupAddClass);
+popupAdd.setEventListeners();
+
+const popupEdit = new Popup(config, popupEditClass);
+popupAdd.setEventListeners();
 
 //галлерея карточек 
-const cardList = new CardList(gallery, initialCards, createCard);
+const section = new Section(gallery, initialCards, createCard);
 
 //форма добавления карточек
 const formAddCard = new FormAddCard(formAdd, addItem);
@@ -77,45 +91,41 @@ function createCard(item) {
 
 // Модальное окно - по событию ищет значения для ссылки и заголовка, подставляет их в попап и открывает его
 function openModal(event) {
-  const caption = event.target.offsetParent.nextElementSibling.textContent;
-  const url = event.target.src;
-  bigImage.src = url;
-  bigImage.alt = caption;
-  document.querySelector('.popup__caption').textContent = caption;
-  openPopup(popupModal);
+  popupWithImage.open(event);
 }
 
 // добавить карточку
 function addItem(item) {
-  cardList.addItem(item);
-  closePopup(popupAdd);
+  section.addItem(item);
+  popupAdd.close(popupAddClass);
 }
 // добавить массив карточек
 initialCards.forEach((item) => {
-  cardList.addItem(item);
+  section.addItem(item);
 })
 
 
 // открывает попап добавляя класс, слушает закрытие на Esc и оверлей
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupToEsc);
-}
-// // закрывает попап удаляя класс, снимает слушатели закрытия
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('click', closePopupToEsc);
-}
+// function openPopup(popup) {
+//   popup.classList.add('popup_opened');
+//   document.addEventListener('keydown', closePopupToEsc);
+// }
+// закрывает попап удаляя класс, снимает слушатели закрытия
+// function closePopup(popup) {
+//   popup.classList.remove('popup_opened');
+//   document.removeEventListener('click', Popup.close);
+// }
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
 function editPopup() {
-  openPopup(popupEdit);
+  popupEdit.open(popupEditClass);
   fieldName.value = profileTitle.textContent;
   fieldAbout.value = profileSubtitle.textContent;
   formEditValidator.checkForm();
 }
 // открывает попап добавления карточек, проверяет элементы формы
 function addPopup() {
-  openPopup(popupAdd);
+  popupAdd.open(popupAddClass);
+  // openPopup(popupAdd);
   document.getElementById('popup-add').reset();
   formAddValidator.checkForm();
 }
@@ -124,28 +134,28 @@ function submitFormEdit(event) {
   event.preventDefault();
   profileTitle.textContent = fieldName.value;
   profileSubtitle.textContent = fieldAbout.value;
-  closePopup(popupEdit);
+  popupEdit.close(popupEditClass);
 }
 
 // закрыть попап на Esc
-function closePopupToEsc(event) {
-  if (event.key === 'Escape') {
-    const popupOpened = document.querySelector('.popup_opened');
-    closePopup(popupOpened);
-  }
-}
+// function closePopupToEsc(event) {
+//   if (event.key === 'Escape') {
+//     const popupOpened = document.querySelector('.popup_opened');
+//     closePopup(popupOpened);
+//   }
+// }
 
 // закрыть попап на оверлей и крестик
-popups.forEach((popup) => {
-  popup.addEventListener('click', (event) => {
-    if (event.target.classList.contains('popup_opened')) {
-      closePopup(popup)
-    }
-    if (event.target.classList.contains('popup__close')) {
-      closePopup(popup)
-    }
-  })
-})
+// popups.forEach((popup) => {
+//   popup.addEventListener('click', (event) => {
+//     if (event.target.classList.contains('popup_opened')) {
+//       closePopup(popup);
+//     }
+//     if (event.target.classList.contains('popup__close')) {
+//       closePopup(popup);
+//     }
+//   })
+// })
 
 // слушатели кнопок
 editButton.addEventListener('click', editPopup);
