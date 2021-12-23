@@ -1,10 +1,9 @@
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
-import FormAddCard from '../components/FormAddCard.js';
 import FormValidator from '../components/FormValidator.js';
-import Popup from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 
 const popupEditClass = document.querySelector('.popup_edit');
@@ -15,10 +14,11 @@ const formEdit = document.querySelector('.popup__form_edit');
 const formAdd = document.querySelector('.popup__form_add');
 const fieldName = document.querySelector('.popup__input_type_name');
 const fieldAbout = document.querySelector('.popup__input_type_about');
+const fieldPlace = document.querySelector('.popup__input_type_place');
+const fieldLink = document.querySelector('.popup__input_type_link');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const popupModal = document.querySelector('.popup_modal');
-const bigImage = document.querySelector('.popup__photo');
 const gallery = document.querySelector('.cards-grid');
 const templateItem = document.querySelector('.template').content;
 const initialCards = [
@@ -62,18 +62,17 @@ const config = {
 const popupWithImage = new PopupWithImage(config, popupModal);
 popupWithImage.setEventListeners();
 
-const popupAdd = new Popup(config, popupAddClass);
+const popupAdd = new PopupWithForm(config, popupAddClass, addNewCard);
 popupAdd.setEventListeners();
 
-const popupEdit = new Popup(config, popupEditClass);
-popupAdd.setEventListeners();
+const popupEdit = new PopupWithForm(config, popupEditClass, submitFormEdit);
+popupEdit.setEventListeners();
 
 //галлерея карточек 
-const section = new Section(gallery, initialCards, createCard);
+const section = new Section({items: initialCards, renderer: createCard}, gallery);
+section.renderCards();
 
-//форма добавления карточек
-const formAddCard = new FormAddCard(formAdd, addItem);
-formAddCard.addListener();
+const userInfo = new UserInfo(profileTitle, profileSubtitle);
 
 //валидация формы добавления карточки
 const formAddValidator = new FormValidator(config, formAdd);
@@ -86,7 +85,8 @@ formEditValidator.enableValidation();
 // создание карточки
 function createCard(item) {
   const card = new Card(item, templateItem, openModal);
-  return card; 
+  const renderCard = card.render();
+  return renderCard;
 }
 
 // Модальное окно - по событию ищет значения для ссылки и заголовка, подставляет их в попап и открывает его
@@ -94,70 +94,38 @@ function openModal(event) {
   popupWithImage.open(event);
 }
 
-// добавить карточку
-function addItem(item) {
-  section.addItem(item);
-  popupAdd.close(popupAddClass);
-}
-// добавить массив карточек
-initialCards.forEach((item) => {
-  section.addItem(item);
-})
-
-
-// открывает попап добавляя класс, слушает закрытие на Esc и оверлей
-// function openPopup(popup) {
-//   popup.classList.add('popup_opened');
-//   document.addEventListener('keydown', closePopupToEsc);
-// }
-// закрывает попап удаляя класс, снимает слушатели закрытия
-// function closePopup(popup) {
-//   popup.classList.remove('popup_opened');
-//   document.removeEventListener('click', Popup.close);
-// }
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
 function editPopup() {
   popupEdit.open(popupEditClass);
-  fieldName.value = profileTitle.textContent;
-  fieldAbout.value = profileSubtitle.textContent;
+  const user = userInfo.getUserInfo();
+  fieldName.value = user.name;
+  fieldAbout.value = user.about;
   formEditValidator.checkForm();
 }
+
 // открывает попап добавления карточек, проверяет элементы формы
 function addPopup() {
   popupAdd.open(popupAddClass);
-  // openPopup(popupAdd);
-  document.getElementById('popup-add').reset();
+  document.querySelector('.popup__form_add').reset();
   formAddValidator.checkForm();
 }
-// отправляет форму редактирования, подставляя значения инпутов в поля профиля, закрывает попап
-function submitFormEdit(event) {
-  event.preventDefault();
-  profileTitle.textContent = fieldName.value;
-  profileSubtitle.textContent = fieldAbout.value;
+
+// записывает новые данные пользователя, закрывает попап
+function submitFormEdit(user) {
+  userInfo.setUserInfo(user);
   popupEdit.close(popupEditClass);
 }
 
-// закрыть попап на Esc
-// function closePopupToEsc(event) {
-//   if (event.key === 'Escape') {
-//     const popupOpened = document.querySelector('.popup_opened');
-//     closePopup(popupOpened);
-//   }
-// }
+// добавляет новую карточку
+function addNewCard() {
+  const name = fieldPlace.value;
+  const link = fieldLink.value;
+  const item = {name, link};
+  section.addItem(createCard(item));
+  popupAdd.close();
+}
 
-// закрыть попап на оверлей и крестик
-// popups.forEach((popup) => {
-//   popup.addEventListener('click', (event) => {
-//     if (event.target.classList.contains('popup_opened')) {
-//       closePopup(popup);
-//     }
-//     if (event.target.classList.contains('popup__close')) {
-//       closePopup(popup);
-//     }
-//   })
-// })
 
 // слушатели кнопок
 editButton.addEventListener('click', editPopup);
 addButton.addEventListener('click', addPopup);
-formEdit.addEventListener('submit', submitFormEdit);

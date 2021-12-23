@@ -1,15 +1,20 @@
 class Section {
-  constructor(gallery, initialCards, createCard) {
+  constructor(data, gallery) {
+    this._items = data.items;
+    this._renderer = data.renderer;
     this._gallery = gallery;
-    this._initialCards = initialCards;
-    this._createCard = createCard;
   }
  
   addItem(item) {
-    const card = this._createCard(item);
-    const view = card.render();
-    this._gallery.prepend(view);
+    this._gallery.prepend(item);
   }
+
+  renderCards() {
+    this._items.reverse().forEach((item) => {
+      this.addItem(this._renderer(item));
+    });
+  }
+
 }
- 
+
 export default Section;
