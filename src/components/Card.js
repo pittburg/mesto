@@ -17,7 +17,7 @@ class Card {
   _addListeners() {
     this._view.querySelector('.card__like').addEventListener('click', this._toggleLike);
     this._view.querySelector('.card__trash').addEventListener('click', this._deleteCard);
-    this._view.querySelector('.card__photo').addEventListener('click', (event) => this._openModal(event));
+    this._view.querySelector('.card__photo').addEventListener('click', () => this._openModal(this._item.name, this._item.link));
   }
 
   render() {

@@ -2,7 +2,6 @@ class Popup {
   constructor(config, component) {
    this._config = config;
    this._component = component;
-   this._popupCloseButton = this._component.querySelector('.popup__close');
    this._handleEscClose = this._handleEscClose.bind(this);
   }
   open() {
@@ -31,7 +30,6 @@ class Popup {
   }
 
   setEventListeners() {
-    this._popupCloseButton.addEventListener('click', () => this.close());
     this._component.addEventListener('click', (event) => this._handleClickClose(event));
   }
  }

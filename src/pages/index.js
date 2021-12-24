@@ -10,9 +10,6 @@ fieldName, fieldAbout, fieldPlace, fieldLink, profileTitle,profileSubtitle,
 popupModal, gallery, templateItem, initialCards, config} from '../utils/constants.js';
 
 
-const popupWithImage = new PopupWithImage(config, popupModal);
-popupWithImage.setEventListeners();
-
 const popupAdd = new PopupWithForm(config, popupAddClass, addNewCard);
 popupAdd.setEventListeners();
 
@@ -40,14 +37,16 @@ function createCard(item) {
   return renderCard;
 }
 
-// Модальное окно - по событию ищет значения для ссылки и заголовка, подставляет их в попап и открывает его
-function openModal(event) {
-  popupWithImage.open(event);
+// Модальное окно
+function openModal(caption, url) {
+  const popupWithImage = new PopupWithImage(config, popupModal);
+  popupWithImage.open(caption, url);
+  popupWithImage.setEventListeners();
 }
 
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
 function editPopup() {
-  popupEdit.open(popupEditClass);
+  popupEdit.open();
   const user = userInfo.getUserInfo();
   fieldName.value = user.name;
   fieldAbout.value = user.about;
@@ -56,25 +55,25 @@ function editPopup() {
 
 // открывает попап добавления карточек, проверяет элементы формы
 function addPopup() {
-  popupAdd.open(popupAddClass);
-  document.querySelector('.popup__form_add').reset();
+  popupAdd.open();
   formAddValidator.checkForm();
 }
 
 // записывает новые данные пользователя, закрывает попап
 function submitFormEdit(user) {
   userInfo.setUserInfo(user);
-  popupEdit.close(popupEditClass);
+  popupEdit.close();
 }
 
-// добавляет новую карточку
+// добавить новую карточку
 function addNewCard() {
-  const name = fieldPlace.value;
-  const link = fieldLink.value;
-  const item = {name, link};
-  section.addItem(createCard(item));
+  section.addItem(createCard({
+    name: fieldPlace.value,
+    link: fieldLink.value
+  }));
   popupAdd.close();
 }
+
 
 // слушатели кнопок
 editButton.addEventListener('click', editPopup);
