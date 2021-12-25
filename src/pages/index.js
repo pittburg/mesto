@@ -66,14 +66,14 @@ function submitFormEdit(user) {
 }
 
 // добавить новую карточку
-function addNewCard() {
+function addNewCard(data) {
   section.addItem(createCard({
-    name: fieldPlace.value,
-    link: fieldLink.value
+    name: data.place,
+    link: data.link
   }));
   popupAdd.close();
 }
-
+// большое спасибо за ревью
 
 // слушатели кнопок
 editButton.addEventListener('click', editPopup);
