@@ -1,0 +1,7 @@
+.card__like-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 22px;
+  height: 35px;
+}

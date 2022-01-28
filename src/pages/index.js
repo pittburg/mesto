@@ -19,10 +19,12 @@ const api = new Api({
   }
 });
 
+let userId;
 
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([user, initialCards]) => {
     userInfo.setUserInfo(user);
+    userId = user._id;
     section.renderCards(initialCards);
   })
 
@@ -53,7 +55,7 @@ formEditValidator.enableValidation();
 
 // создание карточки
 function createCard(item) {
-  const card = new Card(item, templateItem, openModal);
+  const card = new Card(item, userId, templateItem, openModal);
   const renderCard = card.render();
   return renderCard;
 }
@@ -63,6 +65,10 @@ function openModal(caption, url) {
   const popupWithImage = new PopupWithImage(config, popupModal);
   popupWithImage.open(caption, url);
   popupWithImage.setEventListeners();
+}
+
+function openConfirm() {
+  popupConfirmation = new PopupWithForm(config, popupConfirmClass, submit)
 }
 
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
@@ -83,24 +89,20 @@ function addPopup() {
 // записывает новые данные пользователя, закрывает попап
 function submitFormEdit(user) {
   api.setUserInfo(user)
-  userInfo.setUserInfo(user);
+    .then((data) => {
+      userInfo.setUserInfo(data);
+    })
   popupEdit.close();
 }
 
 // добавить новую карточку
 function addNewCard(data) {
-  console.log('вход', data)
   api.addCard(data)
-  .then(data => {
-  console.log('newCard', data);
- })
-  section.addItem(createCard({
-    name: data.place,
-    link: data.link
-  }));
+    .then((data) => {
+      section.addItem(createCard(data));
+    });
   popupAdd.close();
 }
-// большое спасибо за ревью
 
 // слушатели кнопок
 editButton.addEventListener('click', editPopup);

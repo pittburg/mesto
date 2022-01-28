@@ -59,7 +59,6 @@
           <span id="about-error" class="popup__error"></span>
           <button type="submit" class="popup__button" form="popup-edit">Сохранить</button>
         </form>
-        
       </div>
     </div>
 
@@ -90,7 +89,6 @@
           <span id="link-error" class="popup__error"></span>
           <button type="submit" class="popup__button" form="popup-add">Создать</button>
         </form>
-        
       </div>
     </div>
 
@@ -102,6 +100,17 @@
       </figure>
     </div>
 
+    <div class="popup popup_confirm">
+      <div class="popup__content">
+        <button type="button" class="popup__close popup__close_confirm hover-button"></button>
+        <h3 class="popup__title">Вы уверены?</h3>
+        <form class="popup__form popup__form_confirm" id="popup-confirm" name="confirm" novalidate>
+          <button type="submit" class="popup__button" form="popup-confirm">Да</button>
+        </form>
+      </div>
+    </div>
+
+
     <template class="template">
       <article class="card">
         <button type="button" class="card__trash hover-button"></button>
@@ -110,7 +119,10 @@
         </div>
         <div class="card__description">
           <h2 class="card__title overflow"></h2>
-          <button type="button" class="card__like"></button>
+          <div class="card__like-block">
+            <button type="button" class="card__like"></button>
+            <span class="card__like-counter">0</span>
+          </div>
         </div>
       </article>
     </template>
