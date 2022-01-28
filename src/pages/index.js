@@ -5,10 +5,24 @@ import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api.js';
 import {popupEditClass, popupAddClass, editButton, addButton,formAdd, formEdit,
 fieldName, fieldAbout, fieldPlace, fieldLink, profileTitle,profileSubtitle,
 popupModal, gallery, templateItem, initialCards, config} from '../utils/constants.js';
 
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-32',
+  headers: {
+    authorization: 'f5a0177a-689d-461c-8da0-42fcda5fb7c6',
+    'Content-Type': 'application/json'
+  }
+});
+
+api.getUserInfo()
+.then( (data) => {
+  console.log('юзер', data)
+})
 
 const popupAdd = new PopupWithForm(config, popupAddClass, addNewCard);
 popupAdd.setEventListeners();
