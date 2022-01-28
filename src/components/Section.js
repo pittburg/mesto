@@ -1,7 +1,6 @@
 class Section {
-  constructor(data, gallery) {
-    this._items = data.items;
-    this._renderer = data.renderer;
+  constructor({renderer}, gallery) {
+    this._renderer = renderer;
     this._gallery = gallery;
   }
  
@@ -9,12 +8,11 @@ class Section {
     this._gallery.prepend(item);
   }
 
-  renderCards() {
-    this._items.reverse().forEach((item) => {
-      this.addItem(this._renderer(item));
-    });
+  renderCards(data) {
+    data.reverse().forEach((item) => {
+      this._renderer(item);
+    })
   }
-
 }
 
 export default Section;

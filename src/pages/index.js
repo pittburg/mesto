@@ -8,7 +8,7 @@ import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 import {popupEditClass, popupAddClass, editButton, addButton,formAdd, formEdit,
 fieldName, fieldAbout, fieldPlace, fieldLink, profileTitle,profileSubtitle,
-popupModal, gallery, templateItem, initialCards, config} from '../utils/constants.js';
+popupModal, gallery, templateItem, config} from '../utils/constants.js';
 
 
 const api = new Api({
@@ -19,10 +19,13 @@ const api = new Api({
   }
 });
 
-api.getUserInfo()
-.then( (data) => {
-  console.log('юзер', data)
-})
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([user, initialCards]) => {
+    userInfo.setUserInfo(user);
+    section.renderCards(initialCards);
+  })
+
 
 const popupAdd = new PopupWithForm(config, popupAddClass, addNewCard);
 popupAdd.setEventListeners();
@@ -31,8 +34,12 @@ const popupEdit = new PopupWithForm(config, popupEditClass, submitFormEdit);
 popupEdit.setEventListeners();
 
 //галлерея карточек 
-const section = new Section({items: initialCards, renderer: createCard}, gallery);
-section.renderCards();
+const section = new Section({
+  renderer: (data) => {
+    section.addItem(createCard(data));
+  },
+}, gallery);
+
 
 const userInfo = new UserInfo(profileTitle, profileSubtitle);
 
@@ -75,12 +82,18 @@ function addPopup() {
 
 // записывает новые данные пользователя, закрывает попап
 function submitFormEdit(user) {
+  api.setUserInfo(user)
   userInfo.setUserInfo(user);
   popupEdit.close();
 }
 
 // добавить новую карточку
 function addNewCard(data) {
+  console.log('вход', data)
+  api.addCard(data)
+  .then(data => {
+  console.log('newCard', data);
+ })
   section.addItem(createCard({
     name: data.place,
     link: data.link
