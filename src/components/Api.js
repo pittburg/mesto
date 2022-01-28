@@ -11,6 +11,37 @@ class Api {
     .then(this._checkResponse)
   }
 
+  getInitialCards() {
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
+    })
+    .then(this._checkResponse)
+  }
+
+  setUserInfo(user) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: user.name,
+        about: user.about
+      })
+    })
+    .then(this._checkResponse)
+  }
+
+  addCard(data) {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data.place,
+        link: data.link
+      })
+    })
+    .then(this._checkResponse)
+  }
+
 
   _checkResponse(res) {
     if (res.ok) {
