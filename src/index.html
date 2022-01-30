@@ -14,6 +14,7 @@
     <main class="main">
       <section class="profile width-container">
         <img class="profile__avatar" src="<%=require('./images/kusto.png')%>" alt="аватар">
+        <button class="profile__avatar-button"></button>
         <div class="profile__info">
           <h1 class="profile__title overflow">Жак-Ив Кусто</h1>
           <button type="button" class="profile__button profile__button_edit hover-button"></button>
@@ -106,6 +107,25 @@
         <h3 class="popup__title">Вы уверены?</h3>
         <form class="popup__form popup__form_confirm" id="popup-confirm" name="confirm" novalidate>
           <button type="submit" class="popup__button" form="popup-confirm">Да</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_avatar">
+      <div class="popup__content">
+        <button type="button" class="popup__close popup__close_avatar hover-button"></button>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <form class="popup__form popup__form_avatar" id="popup-avatar" name="avatar" novalidate>
+          <input
+            type="url"
+            class="popup__input popup__input_type_link"
+            id="link"
+            name="link"
+            placeholder="Ссылка на картинку"
+            autocomplete="off"
+            required >
+          <span id="link-error" class="popup__error"></span>
+          <button type="submit" class="popup__button" form="popup-avatar">Сохранить</button>
         </form>
       </div>
     </div>
