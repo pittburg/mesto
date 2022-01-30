@@ -1,0 +1,6 @@
+.profile__avatar-button {
+  height: 26px;
+  width: 26px;
+  background-image: url("../../../../images/pencil.svg");
+  background-size: 26px 26px;
+}

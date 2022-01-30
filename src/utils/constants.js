@@ -1,5 +1,6 @@
 export const popupEditClass = document.querySelector('.popup_edit');
 export const popupAddClass = document.querySelector('.popup_add');
+export const popupConfirmClass = document.querySelector('.popup_confirm');
 export const editButton = document.querySelector('.profile__button_edit');
 export const addButton = document.querySelector('.profile__button_add');
 export const formAdd = document.querySelector('.popup__form_add');
@@ -10,6 +11,7 @@ export const fieldPlace = document.querySelector('.popup__input_type_place');
 export const fieldLink = document.querySelector('.popup__input_type_link');
 export const profileTitle = document.querySelector('.profile__title');
 export const profileSubtitle = document.querySelector('.profile__subtitle');
+export const avatar = document.querySelector('.profile__avatar');
 export const popupModal = document.querySelector('.popup_modal');
 export const gallery = document.querySelector('.cards-grid');
 export const templateItem = document.querySelector('.template').content;

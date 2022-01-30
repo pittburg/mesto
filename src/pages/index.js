@@ -6,8 +6,8 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
-import {popupEditClass, popupAddClass, editButton, addButton,formAdd, formEdit,
-fieldName, fieldAbout, fieldPlace, fieldLink, profileTitle,profileSubtitle,
+import {popupEditClass, popupAddClass, popupConfirmClass, editButton, addButton,formAdd, formEdit,
+fieldName, fieldAbout, fieldPlace, fieldLink, profileTitle,profileSubtitle, avatar,
 popupModal, gallery, templateItem, config} from '../utils/constants.js';
 
 
@@ -19,10 +19,12 @@ const api = new Api({
   }
 });
 
+let userId;
 
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([user, initialCards]) => {
     userInfo.setUserInfo(user);
+    userId = user._id;
     section.renderCards(initialCards);
   })
 
@@ -41,7 +43,7 @@ const section = new Section({
 }, gallery);
 
 
-const userInfo = new UserInfo(profileTitle, profileSubtitle);
+const userInfo = new UserInfo(profileTitle, profileSubtitle, avatar);
 
 //валидация формы добавления карточки
 const formAddValidator = new FormValidator(config, formAdd);
@@ -51,9 +53,11 @@ formAddValidator.enableValidation();
 const formEditValidator = new FormValidator(config, formEdit);
 formEditValidator.enableValidation();
 
+let tempCard;
 // создание карточки
 function createCard(item) {
-  const card = new Card(item, templateItem, openModal);
+  const card = new Card(item, userId, templateItem, openModal, openConfirm, api)
+  tempCard = card;
   const renderCard = card.render();
   return renderCard;
 }
@@ -63,6 +67,21 @@ function openModal(caption, url) {
   const popupWithImage = new PopupWithImage(config, popupModal);
   popupWithImage.open(caption, url);
   popupWithImage.setEventListeners();
+}
+
+function openConfirm(data) {
+  const popupConfirmation = new PopupWithForm(config, popupConfirmClass, () => {
+    submitConfirm(data);
+    popupConfirmation.close();
+  })
+  popupConfirmation.open();
+  popupConfirmation.setEventListeners();
+}
+
+
+function submitConfirm(data) {
+  api.deleteCard(data);
+  tempCard.deleteCard(data);
 }
 
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
@@ -80,27 +99,25 @@ function addPopup() {
   formAddValidator.checkForm();
 }
 
+
+
 // записывает новые данные пользователя, закрывает попап
 function submitFormEdit(user) {
   api.setUserInfo(user)
-  userInfo.setUserInfo(user);
+    .then((data) => {
+      userInfo.setUserInfo(data);
+    })
   popupEdit.close();
 }
 
 // добавить новую карточку
 function addNewCard(data) {
-  console.log('вход', data)
   api.addCard(data)
-  .then(data => {
-  console.log('newCard', data);
- })
-  section.addItem(createCard({
-    name: data.place,
-    link: data.link
-  }));
+    .then((data) => {
+      section.addItem(createCard(data));
+    });
   popupAdd.close();
 }
-// большое спасибо за ревью
 
 // слушатели кнопок
 editButton.addEventListener('click', editPopup);
