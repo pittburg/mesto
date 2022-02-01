@@ -71,20 +71,18 @@ class Api {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data.avatar
+        avatar: data.link
       })
     })
     .then(this._checkResponse)
   }
 
-
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`)
+    return Promise.reject(`Ошибка ${res.status}`)
   }
-
 }
 
 export default Api;

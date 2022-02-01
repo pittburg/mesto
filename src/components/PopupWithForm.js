@@ -6,8 +6,19 @@ class PopupWithForm extends Popup {
     this._form = this._component.querySelector('.popup__form');
     this._inputs = this._component.querySelectorAll('.popup__input');
     this._submitForm = submitForm;
-    
+    this._popupButton = this._form.querySelector('.popup__button');
+    this._popupButtonText = this._popupButton.textContent;
   }
+
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._popupButton.textContent = 'Сохранение...';
+    }
+    else {
+      this._popupButton.textContent = this._popupButtonText;
+    }
+  }
+
 
   _getInputValues() {
     this._inputValues = {};

@@ -1,10 +1,13 @@
 export const popupEditClass = document.querySelector('.popup_edit');
 export const popupAddClass = document.querySelector('.popup_add');
 export const popupConfirmClass = document.querySelector('.popup_confirm');
+export const popupAvatarClass = document.querySelector('.popup_avatar');
 export const editButton = document.querySelector('.profile__button_edit');
 export const addButton = document.querySelector('.profile__button_add');
+export const avatarButton = document.querySelector('.profile__avatar-button');
 export const formAdd = document.querySelector('.popup__form_add');
 export const formEdit = document.querySelector('.popup__form_edit');
+export const formAvatar = document.querySelector('.popup__form_avatar');
 export const fieldName = document.querySelector('.popup__input_type_name');
 export const fieldAbout = document.querySelector('.popup__input_type_about');
 export const fieldPlace = document.querySelector('.popup__input_type_place');

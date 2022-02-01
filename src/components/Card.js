@@ -24,13 +24,19 @@ class Card {
 
   _setLike(item) {
     this._api.setLike(item)
-      .then(data => this._toggleLike(data));
+      .then(data => this._toggleLike(data))
+      .catch((err) => {
+        console.log(`Что-то не так: ${err}`);
+      })
   }
 
 
   _deleteLike(item) {
     this._api.deleteLike(item)
-      .then(data => this._toggleLike(data));
+      .then(data => this._toggleLike(data))
+      .catch((err) => {
+        console.log(`Что-то не так: ${err}`);
+      })
   }
 
 
@@ -58,7 +64,11 @@ class Card {
         this._setLike(this._item);
       }
     });
-    this._trashIcon.addEventListener('click', () => this._openConfirm(this._item));
+
+    this._trashIcon.addEventListener('click', () => {
+      this._openConfirm(this._item);
+    });
+
     this._photo.addEventListener('click', () => this._openModal(this._item.name, this._item.link));
   }
 
