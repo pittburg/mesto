@@ -115,7 +115,6 @@ function editAvatar() {
 
 // удалить карточку
 function submitConfirm(data) {
-  console.log(data)
   api.deleteCard(data)
   .catch((err) => {
     console.log(`Что-то не так: ${err}`);
