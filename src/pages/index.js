@@ -48,6 +48,7 @@ popupEditAvatar.setEventListeners();
 
 // модальное окно
 const popupWithImage = new PopupWithImage(config, popupModal);
+popupWithImage.setEventListeners();
 
 // попап подтверждения удаления
 const popupConfirmation = new PopupWithConfirm(config, popupConfirmClass)
@@ -82,7 +83,6 @@ formAvatarValidator.enableValidation();
 function createCard(item) {
   const card = new Card(item, userId, templateItem, openModal,{
     openConfirm: (data) => {
-      console.log(data._id)
       popupConfirmation.open();
       popupConfirmation.handlerSubmit(() => {
         api.deleteCard(data)
@@ -103,7 +103,6 @@ function createCard(item) {
 // открыть модальное окно
 function openModal(caption, url) {
   popupWithImage.open(caption, url);
-  popupWithImage.setEventListeners();
 }
 
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
