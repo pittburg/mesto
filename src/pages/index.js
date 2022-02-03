@@ -21,6 +21,8 @@ const api = new Api({
 });
 
 let userId;
+
+
 // запросить начальные данные с сервера и загрузить на страницу
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([user, initialCards]) => {
@@ -44,9 +46,14 @@ popupEdit.setEventListeners();
 const popupEditAvatar = new PopupWithForm(config, popupAvatarClass, submitFormAvatar);
 popupEditAvatar.setEventListeners();
 
+// модальное окно
+const popupWithImage = new PopupWithImage(config, popupModal);
+
 // попап подтверждения удаления
-const popupConfirmation = new PopupWithConfirm(config, popupConfirmClass, submitConfirm)
+const popupConfirmation = new PopupWithConfirm(config, popupConfirmClass)
 popupConfirmation.setEventListeners();
+
+
 
 
 // галлерея карточек
@@ -71,25 +78,32 @@ formEditValidator.enableValidation();
 const formAvatarValidator = new FormValidator(config, formAvatar);
 formAvatarValidator.enableValidation();
 
-let tempCard;
 // создание карточки
 function createCard(item) {
-  const card = new Card(item, userId, templateItem, openModal, openConfirm, api)
-  tempCard = card;
+  const card = new Card(item, userId, templateItem, openModal,{
+    openConfirm: (data) => {
+      console.log(data._id)
+      popupConfirmation.open();
+      popupConfirmation.handlerSubmit(() => {
+        api.deleteCard(data)
+          .then(()=> {
+            card.deleteCard(data)
+            popupConfirmation.close()
+          })
+          .catch((err) => {
+            console.log(`Что-то не так: ${err}`)
+          })
+      })
+    }
+  }, api)
   const renderCard = card.render();
   return renderCard;
 }
 
-// Модальное окно
+// открыть модальное окно
 function openModal(caption, url) {
-  const popupWithImage = new PopupWithImage(config, popupModal);
   popupWithImage.open(caption, url);
   popupWithImage.setEventListeners();
-}
-
-// открыть попап подверждения удаления карточки
-function openConfirm(data) {
-  popupConfirmation.open(data)
 }
 
 // открывает попап редактирования, подставляя значения профиля в поля инпутов, проверяет элементы формы
@@ -113,32 +127,21 @@ function editAvatar() {
   formAvatarValidator.checkForm();
 }
 
-// удалить карточку
-function submitConfirm(data) {
-  api.deleteCard(data)
-  .catch((err) => {
-    console.log(`Что-то не так: ${err}`);
-  })
-  tempCard.deleteCard(data);
-  popupConfirmation.close();
-}
-
 // установить аватар
 function submitFormAvatar(data) {
   popupEditAvatar.renderLoading(true);
   api.setAvatar(data)
     .then((user) => {
-      userInfo.setUserInfo(user);
+      userInfo.setUserInfo(user)
+      popupEditAvatar.close()
     })
     .catch((err) => {
-      console.log(`Что-то не так: ${err}`);
+      console.log(`Что-то не так: ${err}`)
     })
     .finally( () => {
-      popupEditAvatar.renderLoading(false);
+      popupEditAvatar.renderLoading(false)
     });
-  popupEditAvatar.close();
 }
-
 
 
 // записывает новые данные пользователя, закрывает попап
@@ -146,15 +149,15 @@ function submitFormEdit(user) {
   popupEdit.renderLoading(true);
   api.setUserInfo(user)
     .then((data) => {
-      userInfo.setUserInfo(data);
+      userInfo.setUserInfo(data)
+      popupEdit.close();
     })
     .catch((err) => {
-      console.log(`Что-то не так: ${err}`);
+      console.log(`Что-то не так: ${err}`)
     })
     .finally( () => {
       popupEdit.renderLoading(false);
     });
-  popupEdit.close();
 }
 
 // добавить новую карточку
@@ -162,15 +165,15 @@ function addNewCard(data) {
   popupAdd.renderLoading(true);
   api.addCard(data)
     .then((data) => {
-      section.addItem(createCard(data));
+      section.addItem(createCard(data))
+      popupAdd.close();
     })
     .catch((err) => {
-      console.log(`Что-то не так: ${err}`);
+      console.log(`Что-то не так: ${err}`)
     })
     .finally( () => {
-      popupAdd.renderLoading(false);
+      popupAdd.renderLoading(false)
     });
-  popupAdd.close();
 }
 
 // слушатели кнопок

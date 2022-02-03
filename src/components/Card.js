@@ -1,5 +1,5 @@
 class Card {
-  constructor(item, userId, template, openModal, openConfirm, api) {
+  constructor(item, userId, template, openModal, {openConfirm}, api) {
     this._item = item;
     this._userId = userId;
     this._view = template.querySelector('.card').cloneNode(true);
@@ -20,6 +20,7 @@ class Card {
 
   deleteCard(item) {
     this._view.remove(item._id);
+    this._view = null;
   }
 
   _setLike(item) {
